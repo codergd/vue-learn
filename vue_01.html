@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title>vue-01</title>
+    </head>
+    <script src=".\vue.min.js"></script>
+    <body>
+        <div id="app1">
+            {{ title }}
+        </div>
+
+        <div id="app2">
+            <!-- v-bind 指令， 将span的title特性和Vue实例的message绑定-->
+            <span v-bind:title="message">鼠标悬停此处查看提示信息</span>
+        </div>
+
+        <div id="app3">
+            <!-- v-if 指令， 控制DOM显示-->
+            <p v-if="seen">现在你看到我了</p>
+        </div>
+
+        <div id="app4">
+            <ol>
+                <!-- v-for 指令，遍历列表-->
+                <li v-for="todo in todos">
+                    {{ todo.text }}
+                </li>
+            </ol>
+        </div>
+
+        <div id="app5">
+            <p>{{ message }}</p>
+            <!-- v-on指令， 添加事件监听器， 通过它来调用Vue实例中定义的方法-->
+            <button v-on:click="getDate">获取当前时间</button>
+        </div>
+    </body>
+</html>
+<script>
+
+    // Vue实例
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            title: 'Hello, Vue!'
+        }
+    })
+
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            message: '页面加载于： ' + new Date().toLocaleDateString()
+        }
+    })
+
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            seen: true
+        }
+    })
+
+    var app4 = new Vue({
+        el: '#app4',
+        data: {
+            todos: [
+                {text: 'a'},
+                {text: 'b'},
+                {text: 'c'}
+            ]
+        }
+    })
+
+    var app5 = new Vue({
+        el: '#app5',
+        data: {
+            message: 'Hello, Vue.js!'
+        },
+        methods: {
+          getDate(){
+              this.message = new Date().toLocaleDateString()
+          }  
+        },
+    })
+</script>
