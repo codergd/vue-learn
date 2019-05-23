@@ -1,4 +1,5 @@
 <html>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
     <head>
         <title>vue-05</title>
     </head>
@@ -34,9 +35,17 @@
                 </li>
             </ul>
             <ul>
-                
-                <li v-for="item in items" v-bind:key="item.id"></li>
+                <!-- 使用v-for时，应该尽量加上key属性, 不要使用数组或者对象作为key，应使用字符或者数类型-->
+                <li v-for="item in items" v-bind:key="item.id">
+                    {{ item.id }} - {{ item.title }}
+                </li>
             </ul>
+            <ul>
+                <!-- 使用计算属性eventNumbers返回过滤列表-->
+                <li v-for="n in eventNumbers">{{ n }}</li>
+            </ul>
+            <span v-for="n in 10">{{ n }}</span>
+            <button @click="addProperty">changeItems</button>
         </div>
     </body>
 </html>
@@ -46,16 +55,83 @@
         data: {
             parentMsg: 'parent',
             items: [
-                {title: 'a'},
-                {title: 'b'},
-                {title: 'c'}
+                {id: 0, title: 'a'},
+                {id: 1, title: 'b'},
+                {id: 2, title: 'c'}
             ],
+            numbers: [1,2,3,4,5],
             object: {
                 title: 'vue',
                 author: 'gaoda',
-                date: '2019-06-01'
+                date: '2019-05-23'
             }
-        }
+        },
+        computed: {
+            eventNumbers: function(){
+                return this.numbers.filter(function(number){
+                    return number % 2 === 0
+                })
+            }
+        },
+        methods: {
+            /**
+              * 变异方法指的是调用这些方法会改变原来的数组，所以会触发视图的更新，数组的变异方法：
+              * 1. push()     向数组中添加值
+              * 2. pop()      弹出数组最后一个元素
+              * 3. shift()
+              * 4. unshift()
+              * 5. splice()   替换、删除、新增数据元素
+              *     -splice(index,len,[item])     index 为数组开始下标，len为替换/删除的长度，如果为0则代表新增，如果为null表示到数组末位索引， [item]替换的值，如果是删除，则为null
+              * 6. sort()     对数组排序
+              * 7. reverse()  反转数组元素
+              *
+              * 同样，也有非变异方法，这些方法不会改变原来的数组， 但总是返回一个新数组，当使用非变异方法时，可以使用新数组替换旧数组
+              * 1. filter()    过滤数组
+              * 2. concat()
+              * 3. slice()
+              * 
+              * Vue不能检测如下的数组变化
+              * 1. 利用索引改变数组元素： items[index] = newValue
+              * 2. 修改数组的长度： items.length = newLength
+              */
+            changeItems(){
+                let vm  = this
+                vm.items = vm.items.filter(function(item){
+                    return item.title.match(/a/)
+                })
+            },
+            changeEleByIndex(){
+                let vm = this
+                vm.items[1] = {id: 10, title: 'd'}  // 不会出发视图变化
+            },
+            changeEleByVue(){
+                let vm = this
+                //Vue.set(vm.items, 1, {id: 10, title: 'e'})   // 会发生视图变化
+                //vm.items.splice(1, 1, {id: 11, title: 'f'})
+                vm.items.splice(2)
+            },
+
+            /**
+              * 对象的变更，Vue不能检测对象属性的添加和删除，对于已经创建的Vue实例，Vue不能动态添加根级别的属性，但是可以向嵌套对象中添加响应式属性
+              *
+              */
+            addProperty(){
+                let vm = this
+                //Vue.set(vm.object, 'age', 22)   // 向object对象中添加响应式属性object
+                //vm.$set(vm.object, 'age', 23)
+                // 赋予多个属性，应该使用两个对象的属性创建一个新的对象
+                // Object.assign(vm.object, {
+                //     'age': 22,
+                //     'sex': '男'
+                // })
+                vm.object = Object.assign({}, vm.object, {
+                    'age': 22,
+                    'sex': '男'
+                })
+                console.log(vm.object.age)
+                console.log(vm.object.sex)
+            }
+        },
     })
     
 </script>
