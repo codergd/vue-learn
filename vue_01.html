@@ -9,8 +9,8 @@
         </div>
 
         <div id="app2">
-            <!-- v-bind 指令， 将span的title特性和Vue实例的message绑定-->
-            <span v-bind:title="message">鼠标悬停此处查看提示信息</span>
+            <!-- v-bind 指令(可简写成:)， 将span的title特性和Vue实例的message绑定-->
+            <span :title="message">鼠标悬停此处查看提示信息</span>
         </div>
 
         <div id="app3">
@@ -29,8 +29,21 @@
 
         <div id="app5">
             <p>{{ message }}</p>
-            <!-- v-on指令， 添加事件监听器， 通过它来调用Vue实例中定义的方法-->
-            <button v-on:click="getDate">获取当前时间1</button>
+            <!-- v-on指令(可简写成@click)， 添加事件监听器， 通过它来调用Vue实例中定义的方法-->
+            <button @click="getDate">获取当前时间</button>
+        </div>
+
+        <div id="app6">
+            <p>{{ message }}</p>
+            <!-- v-model指令， 实现表单输入和应用状态的双向绑定-->
+            <input v-model="message" />
+        </div>
+
+        <div id="app7">
+            <ol>
+                <!--使用自定义组件， 通过v-bind指令使得组件的fruit特性和fruit项绑定-->
+                <fruits-item v-for="fruit in fruits" v-bind:fruit="fruit" v-bind:key="fruit.id"></fruits-item>
+            </ol>
         </div>
     </body>
 </html>
@@ -79,5 +92,28 @@
               this.message = new Date().toLocaleDateString()
           }  
         },
+    })
+
+    var app6 = new Vue({
+        el: '#app6',
+        data: {
+            message: 'Hello, Vue.js!'
+        }
+    })
+
+    // 自定义组件, 定义属性fruit
+    Vue.component('fruits-item', {
+        props: ['fruit'],
+        template: '<li>{{ fruit.value }}</li>'
+    })
+
+    var app7 = new Vue({
+        el: '#app7',
+        data: {
+            fruits: [
+                {id: 'one', value: 'apple'},
+                {id: 'two', value: 'banana'}
+            ]
+        }
     })
 </script>

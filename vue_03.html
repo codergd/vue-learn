@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>vue-03</title>
+    </head>
+    <script src=".\vue.min.js"></script>
+    <!-- 动态绑定class 同样也可应用在模板中，另外动态绑定style与此类似，只不过特性值是style-->
+    <body>
+        <!-- 动态绑定class ，当isActive为true时，增加class值active， 可以传多个属性, 也可以和class属性共存-->
+        <div id="app1" :class="{active: isActive, 'text-danger': hasError}" class="static"></div>
+        <div id="app2" :class="classObj"></div>
+        <div id="app3" :class="classObject"></div>
+        <!-- <div id="app4" :class="[oneClass, twoClass]"></div> -->
+        <!-- 按照条件动态绑定class -->
+        <!-- <div id="app4" :class="[isOne? oneClass : '', twoClass]"></div> -->
+        <div id="app4" :class="[{one:isOne}, twoClass]"></div>
+    </body>
+</html>
+<script>
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            isActive: true,
+            hasError: true
+        }
+    })
+
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            // 使用数据对象绑定class
+            classObj: {
+                one: true,
+                two: true
+            }
+        }
+    })
+
+    var app3 = new Vue({
+        el: '#app3',
+        data:{
+            isOne: true,
+            isTwo: true
+        },
+        // 通过计算属性返回数据对象，动态绑定class，这是一种常用且强大的模式
+        computed: {
+            classObject(){
+                return {
+                    one: this.isOne,
+                    two: this.isTwo
+                }
+            }
+        },
+    })
+
+    var app4 = new Vue({
+        el: '#app4',
+        // 通过数组动态绑定class, 值为字符型
+        data: {
+            isOne: true,
+            oneClass: 'one',
+            twoClass: 'two'
+        }
+    })
+</script>
