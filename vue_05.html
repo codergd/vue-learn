@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>vue-05</title>
+    </head>
+    <script src=".\vue.min.js"></script>
+    <body>
+        <div id="app1">
+            <ul>
+                <!-- v-for可以访问父作用域的属性 -->
+                <!-- <li v-for="item in items">
+                    {{ item.title }}
+                </li> -->
+                <!-- index代表索引号， 可以使用of提代in-->
+                <li v-for="(item, index) of items">
+                    {{ parentMsg}} - {{ index }} - {{item.title}}
+                </li>
+            </ul>
+            <!-- 通过一个对象的属性去遍历 -->
+            <ul>
+                <li v-for="item in object">
+                    {{ item }}
+                </li>
+            </ul>
+            <ul>
+                <!-- 可以提供第二个参数property（键名）-->
+                <li v-for="(value, name) in object">
+                    {{ name }} : {{ value }}
+                </li>
+            </ul>
+            <ul>
+                <!-- 第三个参数是索引号 -->
+                <li v-for="(value, name, index) in object">
+                    {{ index }} - {{ name }} : {{ value }}
+                </li>
+            </ul>
+            <ul>
+                
+                <li v-for="item in items" v-bind:key="item.id"></li>
+            </ul>
+        </div>
+    </body>
+</html>
+<script>
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            parentMsg: 'parent',
+            items: [
+                {title: 'a'},
+                {title: 'b'},
+                {title: 'c'}
+            ],
+            object: {
+                title: 'vue',
+                author: 'gaoda',
+                date: '2019-06-01'
+            }
+        }
+    })
+    
+</script>

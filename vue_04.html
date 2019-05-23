@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>vue-04</title>
+    </head>
+    <script src=".\vue.min.js"></script>
+    <body>
+        <!--1. v-if指令控制元素是否应该被渲染，只有当表达式为true时才渲染；
+            2. 和v-if指令类似，v-show指令也能用来条件渲染，不同的是带有v-show的元素始终会被渲染并保留在dom中，v-show只是简单的切换css属性display
+            3. 另外v-show不支持template元素，也不支持v-else 
+            4. v-if切换开销更大，v-show初始渲染开销大，如果需要频繁的切换，则用v-show较好， 如果条件很少改变，则用v-if更好
+            5. v-if可以和v-for一起使用，但是不推荐，v-for比v-if有着更高的优先级 -->
+        <div id="app1">
+            <h1 v-if="awesome">Vue is awesome</h1>
+            <!-- 当表达式为false时渲染else块 -->
+            <h1 v-else>oh no!</h1>
+        </div>
+
+        <div id="app2">
+            <template v-if="ok">
+                <h1>Title</h1>
+                <p>prograph1</p>
+                <p>prograph2</p>
+            </template>
+        </div>
+
+        <!-- v-else-if指令， vue2.1.0新增的特性-->
+        <div id="app3">
+            <div v-if="type === 'A'">A</div>
+            <div v-else-if="type === 'B'">B</div>
+            <div v-else-if="type === 'C'">C</div>
+            <div v-else>Not A/B/C</div>
+        </div>
+
+        <div id="app4">
+            <template v-if="loginType === 'username'">
+                <label>username</label>
+                <!-- Vue会尽量高效渲染，会复用已有元素，而不是从头渲染，如果为元素添加key属性，这样每个控件都是独立的，不会复用-->
+                <input placeholder="enter your username" key='username-input'>
+            </template>
+            <template v-else>
+                <label>email</label>
+                <input placeholder="enter your email" key='email-input'>
+            </template>
+            <button @click="changeLoginType">change the loginType</button>
+        </div>
+
+        <div id="app5">
+            <h3 v-show="ok">Hello, Vue.js!</h3>
+        </div>
+    </body>
+</html>
+<script>
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            awesome: true
+        }
+    })
+
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            ok: true
+        }
+    })
+
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            type: ''
+        }
+    })
+
+    var app4 = new Vue({
+        el: '#app4',
+        data: {
+            loginType: 'username'
+        },
+        methods: {
+            changeLoginType(){
+                if(this.loginType === 'username'){
+                    this.loginType = 'email'
+                    return
+                }
+                if(this.loginType === 'email'){
+                    this.loginType = 'username'
+                    return
+                }
+            }
+        },
+    })
+
+    var app5 = new Vue({
+        el: '#app5',
+        data: {
+            ok: true
+        }
+    })
+</script>
