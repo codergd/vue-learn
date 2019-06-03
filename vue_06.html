@@ -1,0 +1,82 @@
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <head>
+        <title>vue-06</title>
+    </head>
+    <script src=".\vue.min.js"></script>
+    <body>
+        <div id="app1">
+            <button @click="count += 1">click</button>
+            <p>you have click the button {{ count }} tiems!</p>
+        </div>
+
+        <div id="app2">
+            <button @click="greet">greet</button>
+        </div>
+        <div id="app3">
+            <button @click="say('hi')">hi</button>
+            <button @click="say('hello')">hello</button>
+            <!--访问原始DOM事件，将特殊变量$event传入方法-->
+            <button @click="warn('Form can not be submit yet', $event)">warn</button>
+            <!-- 有时我们希望点击事件方法中只有数据逻辑，而不应该操作DOM，这时需要用到事件修饰符
+                1 .stop         阻止事件继续传播  <a v-on:click.stop="doThis"></a>
+                2 .prevent      阻止默认程序，例如表单的提交事件，加上prevent之后只执行自己命名的函数，不会提交表单  <form v-on:submit.prevent="doThis"></form>
+                3 .capture      事件捕获模式，即元素自身触发的事件先在此处理，然后才交由内部元素处理，和事件冒泡相反       <div v-on:click.capture="doThis">...</div>
+                4 .self         声明所有的子级只执行自己自身的函数
+                5 .once         只执行一次事件，再次触发不会执行，vue 2.1.4新增特性    <a v-on:click.once="doThis"></a>
+                6 .passive      会立即触发默认行为，和prevent作用相反
+            -->
+            <div @click.self="doThat">
+                <button @click.stop="doThis">this</button>
+                <button @click.once="doThis">onceThis</button>
+                <button @click="doThis">captureThis</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            count: 0
+        }
+    })
+
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            name: 'Hello, Vue.js!'
+        },
+        methods: {
+            greet: function(event){
+                alert(this.name)
+                // event是原生DOM事件
+                if(event){
+                    alert(event.target.tagName)
+                }
+            }
+        },
+    })
+
+    var app3 = new Vue({
+        el: '#app3',
+        methods: {
+            say: function(message){
+                alert(message)
+            },
+            warn: function(message, event){
+                if(event){
+                    event.preventDefault()
+                }
+                alert(message)
+            },
+            doThis: function(){
+                alert("click the button")
+            },
+            doThat: function(){
+                alert("click the div")
+            }
+        }
+    })
+</script>
