@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>vuex</title>
+    </head>
+    <script src="vue.min.js"></script>
+    <script src="vuex.min.js"></script>
+    <body></body>
+</html>
+<script>
+    const store = new Vuex.Store({
+        state: {
+            count: 0,
+            color: 'green'
+        },
+        mutations: {
+            increment(state){
+                state.count++
+            }
+        } 
+    })
+</script>

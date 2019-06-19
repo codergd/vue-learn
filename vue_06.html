@@ -26,7 +26,7 @@
                 5 .once         只执行一次事件，再次触发不会执行，vue 2.1.4新增特性    <a v-on:click.once="doThis"></a>
                 6 .passive      会立即触发默认行为，和prevent作用相反
             -->
-            <div @click.self="doThat">
+            <div @click.self="doThat" v-on:scroll.passive="doScroll">
                 <button @click.stop="doThis">this</button>
                 <button @click.once="doThis">onceThis</button>
                 <button @click="doThis">captureThis</button>
@@ -76,6 +76,9 @@
             },
             doThat: function(){
                 alert("click the div")
+            },
+            doScroll: function(){
+                alert("scroll the div")
             }
         }
     })
