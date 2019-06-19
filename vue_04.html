@@ -35,11 +35,11 @@
             <template v-if="loginType === 'username'">
                 <label>username</label>
                 <!-- Vue会尽量高效渲染，会复用已有元素，而不是从头渲染，如果为元素添加key属性，这样每个控件都是独立的，不会复用-->
-                <input placeholder="enter your username" key='username-input'>
+                <input placeholder="enter your username" key='username-input'/>
             </template>
             <template v-else>
                 <label>email</label>
-                <input placeholder="enter your email" key='email-input'>
+                <input placeholder="enter your email" key='email-input'/>
             </template>
             <button @click="changeLoginType">change the loginType</button>
         </div>
